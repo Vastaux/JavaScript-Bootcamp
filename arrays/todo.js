@@ -7,7 +7,7 @@ const todos = [
     {
         dayDue: 'Tuesday',
         text: 'Wash up',
-        completed: false
+        completed: true
     },
     {
         dayDue: 'Wednesday',
@@ -18,38 +18,31 @@ const todos = [
         dayDue: 'Thursday',
         text: 'Delete todos',
         completed: false
+    },
+    {
+        dayDue: 'Friday',
+        text: 'Go to school',
+        completed: true
     }
 ]
 
-function deleteSelected(todoArray, todoText) {
-    const index = todoArray.findIndex(function (todo, index) {
-        return todo.text === todoText
-})
-todoArray.slice(index, 1)
+const removeTodo = function (todos) {
+    for (let index = 0; index < 2; index++) {
+    const index = todos.findIndex(function (todo, index) {
+        return todo.completed === true
+    })
+    todos.splice(index,1)
 }
-
-console.log(todos)
-console.log(deleteSelected(todos, 'Sleep'))
-console.log(todos)
-
-// function printList(todoArray) {
-//     let itemPos = 1
-//     todoArray.forEach(function (item, index) {
-//     console.log(`${itemPos}. ${item}`)
-//     itemPos += 1
-
-// })
-// }
-
-// printList(todos)
-
-// function printList1(todoArray) {
-//     for (let index = 0; index < todoArray.length; index++) {
-//         const item = todoArray[index];
-//         console.log(`${index + 1}. ${item}`)
-        
-//     }
+}
     
+// const findNote = function (notes, noteTitle) {
+//     const index = notes.findIndex(function (note, index) {
+//         return note.title.toLowerCase() === noteTitle.toLowerCase()
+//     })
+//     return notes[index]
 // }
 
-// printList1(todos)
+console.log(todos)
+removeTodo(todos)
+console.log(todos)
+
