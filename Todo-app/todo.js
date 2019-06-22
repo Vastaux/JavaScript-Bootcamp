@@ -29,3 +29,11 @@ todos.forEach( (todo) => {
     p.textContent = todo.text
     document.querySelector('body').appendChild(p)
 })
+
+document.querySelector('.addTodo').addEventListener('click', function (e) {
+    e.target.textContent = 'Button clicked'
+})
+
+document.querySelector('input').addEventListener('keyup', function (e) {
+    console.log(e.target.value)
+})
