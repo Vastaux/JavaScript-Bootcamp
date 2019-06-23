@@ -14,26 +14,45 @@ const todo5 = new Todo('Exercise', true)
 
 const todos = [todo1, todo2, todo3, todo4, todo5]
 
-const incompleteTodos = todos.filter(function (todo) {
-    return !todo.completed;
+
+const filterTodos = {
+    searchText: ''
+}
+
+function renderTodos(todos, filter) {
+    const filteredTodo = todos.filter(function (todo) {
+        return todo.text.toLowerCase().includes(filter.searchText.toLowerCase())
+    })
+
+    const incompleteTodos = filteredTodo.filter(function (todo) {
+        return !todo.completed;
+    })
+    
+    document.querySelector('.todos').textContent = ''
+
+    const summary = document.createElement('h3')
+    summary.textContent = `You have ${incompleteTodos.length} todos left`;
+    document.querySelector('.todos').appendChild(summary)
+    
+    filteredTodo.forEach(element => {
+       const p = document.createElement('p')
+       p.textContent = element.text
+       document.querySelector('.todos').appendChild(p)
+    });
+}
+
+document.querySelector('.searchTodos').addEventListener('input', function (e) {
+    filterTodos.searchText = e.target.value
+    renderTodos(todos, filterTodos)
 })
 
-
-const summary = document.createElement('h3')
-summary.textContent = `You have ${incompleteTodos.length} todos left`;
-document.querySelector('body').appendChild(summary)
-
-
-todos.forEach( (todo) => {
-    const p = document.createElement('p')
-    p.textContent = todo.text
-    document.querySelector('body').appendChild(p)
+document.querySelector('#addTodoForm').addEventListener('submit', function (e) {
+    e.preventDefault()
+    const text = e.target.elements.addTodo.value
+    const newTodo = new Todo(text, false)
+    todos.push(newTodo)
+    renderTodos(todos, filterTodos)
+    e.target.elements.addTodo.value = ''
 })
 
-document.querySelector('.addTodo').addEventListener('click', function (e) {
-    e.target.textContent = 'Button clicked'
-})
-
-document.querySelector('input').addEventListener('keyup', function (e) {
-    console.log(e.target.value)
-})
+renderTodos(todos, filterTodos)
