@@ -14,10 +14,13 @@ const todo5 = new Todo('Exercise', true)
 
 const todos = [todo1, todo2, todo3, todo4, todo5]
 
+const hideCompleted = []
 
 const filterTodos = {
     searchText: ''
 }
+
+
 
 function renderTodos(todos, filter) {
     const filteredTodo = todos.filter(function (todo) {
@@ -27,13 +30,13 @@ function renderTodos(todos, filter) {
     const incompleteTodos = filteredTodo.filter(function (todo) {
         return !todo.completed;
     })
-    
+
     document.querySelector('.todos').textContent = ''
 
     const summary = document.createElement('h3')
     summary.textContent = `You have ${incompleteTodos.length} todos left`;
     document.querySelector('.todos').appendChild(summary)
-    
+
     filteredTodo.forEach(element => {
        const p = document.createElement('p')
        p.textContent = element.text
@@ -53,6 +56,10 @@ document.querySelector('#addTodoForm').addEventListener('submit', function (e) {
     todos.push(newTodo)
     renderTodos(todos, filterTodos)
     e.target.elements.addTodo.value = ''
+})
+
+document.querySelector('#hideCompleted').addEventListener('change', function (e) {
+    console.log(e.target.checked)
 })
 
 renderTodos(todos, filterTodos)

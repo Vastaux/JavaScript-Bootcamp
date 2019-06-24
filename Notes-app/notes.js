@@ -44,7 +44,3 @@ document.querySelector('#search-text').addEventListener('input', function(e) {
     renderNotes(notes, filters)
 })
 
-document.querySelector('#name-form').addEventListener('submit', function (e) {
-    e.preventDefault()
-    e.target.elements.firstName.value = ''
-})
