@@ -14,17 +14,23 @@ const todo5 = new Todo('Exercise', true)
 
 const todos = [todo1, todo2, todo3, todo4, todo5]
 
-const hideCompleted = []
+
 
 const filterTodos = {
-    searchText: ''
+    searchText: '',
+    hideCompleted: false
 }
 
 
 
 function renderTodos(todos, filter) {
     const filteredTodo = todos.filter(function (todo) {
+        if (filter.hideCompleted === true) {
+            return (todo.text.toLowerCase().includes(filter.searchText.toLowerCase()) && !todo.completed)
+        } else {
+
         return todo.text.toLowerCase().includes(filter.searchText.toLowerCase())
+        }
     })
 
     const incompleteTodos = filteredTodo.filter(function (todo) {
@@ -59,7 +65,9 @@ document.querySelector('#addTodoForm').addEventListener('submit', function (e) {
 })
 
 document.querySelector('#hideCompleted').addEventListener('change', function (e) {
-    console.log(e.target.checked)
+    filterTodos.hideCompleted = e.target.checked
+
+    renderTodos(todos, filterTodos)
 })
 
 renderTodos(todos, filterTodos)
