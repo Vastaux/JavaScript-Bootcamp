@@ -1,5 +1,4 @@
-// const p = document.querySelector('p')
-// p.remove()
+
 
 const notes = [{
     title: 'My next trip',
@@ -20,23 +19,21 @@ const renderNotes = function (notes, filters) {
     const filteredNotes = notes.filter(function (note) {
         return note.title.toLowerCase().includes(filters.searchText.toLowerCase())
     })
+    
+    console.log(filteredNotes)
+    document.querySelector('.notes').textContent = ''
 
     filteredNotes.forEach(function(note) {
-        document.querySelector('.noteList').textContent = ''
         const noteEl = document.createElement('p')
         noteEl.textContent = note.title
-        document.querySelector('.noteList').appendChild(noteEl)
+        document.querySelector('.notes').appendChild(noteEl)
     })
 }
 
+renderNotes(notes, filters)
+
 document.querySelector('#create-note').addEventListener('click', function (e) {
    e.target.textContent = 'The button was clicked'
-})
-
-document.querySelector('#remove-all').addEventListener('click', function () {
-    document.querySelectorAll('.note').forEach(function(note) {
-        note.remove();
-    })
 })
 
 document.querySelector('#search-text').addEventListener('input', function(e) {
@@ -44,3 +41,6 @@ document.querySelector('#search-text').addEventListener('input', function(e) {
     renderNotes(notes, filters)
 })
 
+document.querySelector('#filter-by').addEventListener('change', function (e) {
+    
+})
