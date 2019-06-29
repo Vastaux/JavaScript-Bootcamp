@@ -1,39 +1,47 @@
-
-
-const notes = [{
-    title: 'My next trip',
-    body: 'Amsterdaaaaam'
-}, {
-    title: 'Hobbies',
-    body: 'Football'
-}, {
-    title: 'Office mods',
-    body: 'Get new chair'
-}]
+let notes = []
 
 const filters = {
     searchText: ''
 }
 
+//Check for existing saved data
+const notesJSON = localStorage.getItem('notes')
+
+if(notesJSON !== null) {
+    notes = JSON.parse(notesJSON)
+}
+
+
 const renderNotes = function (notes, filters) {
     const filteredNotes = notes.filter(function (note) {
         return note.title.toLowerCase().includes(filters.searchText.toLowerCase())
     })
-    
-    console.log(filteredNotes)
+
     document.querySelector('.notes').textContent = ''
 
     filteredNotes.forEach(function(note) {
         const noteEl = document.createElement('p')
+
+    if (note.title.length > 0) {
         noteEl.textContent = note.title
-        document.querySelector('.notes').appendChild(noteEl)
+    } else {
+        noteEl.textContent = 'Unnamed note'
+    }
+
+
+    document.querySelector('.notes').appendChild(noteEl)
     })
 }
 
 renderNotes(notes, filters)
 
 document.querySelector('#create-note').addEventListener('click', function (e) {
-   e.target.textContent = 'The button was clicked'
+   notes.push({
+       title: '',
+       body: '',
+   })
+   localStorage.setItem('notes', JSON.stringify(notes))
+   renderNotes(notes, filters)
 })
 
 document.querySelector('#search-text').addEventListener('input', function(e) {
@@ -42,5 +50,5 @@ document.querySelector('#search-text').addEventListener('input', function(e) {
 })
 
 document.querySelector('#filter-by').addEventListener('change', function (e) {
-    
+
 })

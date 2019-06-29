@@ -1,18 +1,11 @@
 class Todo {
     constructor(text, completed) {
         this.text = text,
-            this.completed = completed
+        this.completed = completed
     }
 }
 
-const todo1 = new Todo('Order cat food', false)
-const todo2 = new Todo('Clean kitchen', true)
-const todo3 = new Todo('Buy food', true)
-const todo4 = new Todo('Do work', false)
-const todo5 = new Todo('Exercise', true)
-
-
-const todos = [todo1, todo2, todo3, todo4, todo5]
+let todos = []
 
 
 
@@ -21,6 +14,13 @@ const filterTodos = {
     hideCompleted: false
 }
 
+//Check for data
+
+const todosJSON = localStorage.getItem('todos')
+
+if (todosJSON !== null) {
+    todos = JSON.parse(todosJSON)
+}
 
 
 function renderTodos(todos, filter) {
@@ -45,7 +45,11 @@ function renderTodos(todos, filter) {
 
     filteredTodo.forEach(element => {
        const p = document.createElement('p')
-       p.textContent = element.text
+       if (element.text.length  > 0) {
+            p.textContent = element.text
+       } else {
+           p.textContent = 'Unnamed todo'
+       }
        document.querySelector('.todos').appendChild(p)
     });
 }
@@ -60,6 +64,7 @@ document.querySelector('#addTodoForm').addEventListener('submit', function (e) {
     const text = e.target.elements.addTodo.value
     const newTodo = new Todo(text, false)
     todos.push(newTodo)
+    localStorage.setItem('todos', JSON.stringify(todos))
     renderTodos(todos, filterTodos)
     e.target.elements.addTodo.value = ''
 })
