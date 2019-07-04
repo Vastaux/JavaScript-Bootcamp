@@ -1,65 +1,88 @@
-// Fetch existing todos from localStorage
-const getSavedTodos = function () {
-    const todosJSON = localStorage.getItem('todos');
+const getSavedTodos = () => {
+    const todosJSON = localStorage.getItem('todos')
 
     if (todosJSON !== null) {
         return JSON.parse(todosJSON)
     } else {
         return []
     }
-};
 
-// Save todos to localStorage
-const saveTodos = function (todos) {
-    localStorage.setItem('todos', JSON.stringify(todos))
-};
+}
 
-// Render application todos based on filters
-const renderTodos = function (todos, filters) {
-    const filteredTodos = todos.filter(function (todo) {
-        const searchTextMatch = todo.text.toLowerCase().includes(filters.searchText.toLowerCase());
-        const hideCompletedMatch = !filters.hideCompleted || !todo.completed;
+function filterSavedTodos(todos, filter) {
+    const filteredTodo = todos.filter(function (todo) {
+        if (filter.hideCompleted === true) {
+            return (todo.text.toLowerCase().includes(filter.searchText.toLowerCase()) && !todo.completed)
+        } else {
 
-        return searchTextMatch && hideCompletedMatch
-    });
-
-    const incompleteTodos = filteredTodos.filter(function (todo) {
-        return !todo.completed
-    });
-
-    document.querySelector('#todos').innerHTML = '';
-    document.querySelector('#todos').appendChild(generateSummaryDOM(incompleteTodos));
-
-    filteredTodos.forEach(function (todo) {
-        document.querySelector('#todos').appendChild(generateTodoDOM(todo))
+            return todo.text.toLowerCase().includes(filter.searchText.toLowerCase())
+        }
     })
-};
+    return filteredTodo
+}
 
-// Get the DOM elements for an individual note
-const generateTodoDOM = function (todo) {
+function generateSummaryDOM(incompleteTodos) {
+    const summary = document.createElement('h3')
+    summary.textContent = `You have ${incompleteTodos.length} todos left`;
+    document.querySelector('.todos').appendChild(summary)
+
+}
+
+function generateTodoDOM(element) {
     const todoEl = document.createElement('div');
-    const checkbox = document.createElement('input');
-    const todoText = document.createElement('span');
-    const removeButton = document.createElement('button');
+    const delButton = createElement('delButton')
+    const completeCheckbox = createElement('completeCheckbox')
 
-    // Setup todo checkbox
-    checkbox.setAttribute('type', 'checkbox');
-    todoEl.appendChild(checkbox);
-
-    // Setup the todo text
-    todoText.textContent = todo.text;
-    todoEl.appendChild(todoText);
-
-    // Setup the remove button
-    removeButton.textContent = 'x';
-    todoEl.appendChild(removeButton);
+    if (element.text.length  > 0) {
+        todoEl.textContent = element.text
+    } else {
+        todoEl.textContent = 'Unnamed todo'
+    }
+    todoEl.prepend(delButton)
+    todoEl.append(completeCheckbox)
 
     return todoEl
-};
+}
 
-// Get the DOM elements for list summary
-const generateSummaryDOM = function (incompleteTodos) {
-    const summary = document.createElement('h2');
-    summary.textContent = `You have ${incompleteTodos.length} todos left`;
-    return summary
-};
+function createElement(elementType) {
+
+    switch (elementType) {
+        case 'completeCheckbox':
+            const completeCheckbox = document.createElement('input');
+            completeCheckbox.type = 'checkbox';
+
+            return completeCheckbox
+            break;
+        case 'delButton':
+            const delButton = document.createElement('button');
+            delButton.textContent = 'x'
+            delButton.id = 'delButton';
+
+            return delButton
+            break;
+        default:
+            console.log('No element')
+            break;
+    }
+}
+
+function renderTodos(todos, filter) {
+    const filteredTodo = filterSavedTodos(todos, filter);
+
+    const incompleteTodos = filteredTodo.filter(function (todo) {
+        return !todo.completed;
+    })
+
+    document.querySelector('.todos').textContent = ''
+
+    generateSummaryDOM(incompleteTodos)
+
+    filteredTodo.forEach(element => {
+        const todoEl = generateTodoDOM(element)
+        document.querySelector('.todos').appendChild(todoEl)
+    });
+}
+
+function saveTodos(todos) {
+    localStorage.setItem('todos', JSON.stringify(todos))
+}
