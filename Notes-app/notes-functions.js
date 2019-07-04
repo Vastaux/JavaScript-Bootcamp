@@ -23,6 +23,11 @@ const generateNoteDOM = function (note) {
     // Setup the remove note button
     button.textContent = 'x';
     noteEl.appendChild(button);
+    button.addEventListener('click', function (e) {
+        removeNote(note.id)
+        saveNotes(notes)
+        renderNotes(notes, filters)
+    })
 
     // Setup the note title text
     if (note.title.length > 0) {
@@ -41,10 +46,20 @@ const renderNotes = function (notes, filters) {
         return note.title.toLowerCase().includes(filters.searchText.toLowerCase())
     });
 
-    document.querySelector('#notes').innerHTML = '';
+    document.querySelector('.notes').textContent = '';
 
     filteredNotes.forEach(function (note) {
         const noteEl = generateNoteDOM(note);
-        document.querySelector('#notes').appendChild(noteEl)
+        document.querySelector('.notes').appendChild(noteEl)
     })
 };
+
+//Remove note from the list
+const removeNote = function (id) {
+    const noteIndex = notes.findIndex(function (note) {
+        return note.id === id
+    })
+    if (noteIndex > -1) {
+        notes.splice(noteIndex, 1)
+    }
+}

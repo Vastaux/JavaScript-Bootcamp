@@ -1,5 +1,6 @@
 class Todo {
-    constructor(text, completed) {
+    constructor(id, text, completed) {
+        this.id = id,
         this.text = text,
         this.completed = completed
     }
@@ -13,6 +14,7 @@ const filterTodos = {
 }
 
 
+
 document.querySelector('.searchTodos').addEventListener('input', function (e) {
     filterTodos.searchText = e.target.value
     renderTodos(todos, filterTodos)
@@ -21,7 +23,7 @@ document.querySelector('.searchTodos').addEventListener('input', function (e) {
 document.querySelector('#addTodoForm').addEventListener('submit', function (e) {
     e.preventDefault()
     const text = e.target.elements.addTodo.value
-    const newTodo = new Todo(text, false)
+    const newTodo = new Todo(uuidv4(), text, false)
     todos.push(newTodo)
     saveTodos(todos)
     renderTodos(todos, filterTodos)
@@ -30,7 +32,7 @@ document.querySelector('#addTodoForm').addEventListener('submit', function (e) {
 
 document.querySelector('#hideCompleted').addEventListener('change', function (e) {
     filterTodos.hideCompleted = e.target.checked
-
+    console.log(e.target)
     renderTodos(todos, filterTodos)
 })
 

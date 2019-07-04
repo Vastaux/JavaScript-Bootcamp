@@ -9,6 +9,28 @@ const getSavedTodos = () => {
 
 }
 
+const completeTodo = function (id, checked) {
+    const todoIndex = todos.findIndex(function (todo) {
+        return todo.id === id
+    })
+    if (todoIndex > -1) {
+        if (todos[todoIndex].completed === false) {
+            todos[todoIndex].completed = true;
+        } else {
+            todos[todoIndex].completed = false;
+        }
+    }
+}
+
+const removeTodo = function (id) {
+    const todoIndex = todos.findIndex(function (todo) {
+        return todo.id === id
+    })
+    if (todoIndex > -1) {
+        todos.splice(todoIndex, 1)
+    }
+}
+
 function filterSavedTodos(todos, filter) {
     const filteredTodo = todos.filter(function (todo) {
         if (filter.hideCompleted === true) {
@@ -28,16 +50,36 @@ function generateSummaryDOM(incompleteTodos) {
 
 }
 
-function generateTodoDOM(element) {
+function generateTodoDOM(todo) {
     const todoEl = document.createElement('div');
     const delButton = createElement('delButton')
     const completeCheckbox = createElement('completeCheckbox')
 
-    if (element.text.length  > 0) {
-        todoEl.textContent = element.text
+    delButton.addEventListener('click', function (e) {
+        removeTodo(todo.id)
+        saveTodos(todos)
+        renderTodos(todos, filterTodos)
+    })
+
+    if (todo.completed === true) {
+        completeCheckbox.checked = true;
+    }
+
+    completeCheckbox.addEventListener('change', function (e) {
+        const checked = e.target.checked
+        completeTodo(todo.id, checked)
+        saveTodos(todos)
+        renderTodos(todos, filterTodos)
+
+    })
+
+
+    if (todo.text.length  > 0) {
+        todoEl.textContent = todo.text
     } else {
         todoEl.textContent = 'Unnamed todo'
     }
+
     todoEl.prepend(delButton)
     todoEl.append(completeCheckbox)
 
@@ -70,6 +112,7 @@ function renderTodos(todos, filter) {
     const filteredTodo = filterSavedTodos(todos, filter);
 
     const incompleteTodos = filteredTodo.filter(function (todo) {
+        
         return !todo.completed;
     })
 
