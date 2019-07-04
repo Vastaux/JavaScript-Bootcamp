@@ -9,7 +9,7 @@ const getSavedTodos = () => {
 
 }
 
-const completeTodo = function (id, checked) {
+const completeTodo = function (id, ) {
     const todoIndex = todos.findIndex(function (todo) {
         return todo.id === id
     })
@@ -66,8 +66,8 @@ function generateTodoDOM(todo) {
     }
 
     completeCheckbox.addEventListener('change', function (e) {
-        const checked = e.target.checked
-        completeTodo(todo.id, checked)
+
+        completeTodo(todo.id)
         saveTodos(todos)
         renderTodos(todos, filterTodos)
 
@@ -87,7 +87,6 @@ function generateTodoDOM(todo) {
 }
 
 function createElement(elementType) {
-
     switch (elementType) {
         case 'completeCheckbox':
             const completeCheckbox = document.createElement('input');
