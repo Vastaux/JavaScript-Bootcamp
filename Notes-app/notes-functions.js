@@ -35,7 +35,7 @@ const generateNoteDOM = function (note) {
     } else {
         textEl.textContent = 'Unnamed note'
     }
-    textEl.setAttribute('href', `/edit.html#${note.id}`)
+    textEl.setAttribute('href', `edit.html#${note.id}`);
     noteEl.appendChild(textEl);
 
     return noteEl
@@ -63,4 +63,10 @@ const removeNote = function (id) {
     if (noteIndex > -1) {
         notes.splice(noteIndex, 1)
     }
+}
+
+const getNote = function (note) {
+    document.querySelector('#note-title').value = note.title;
+    document.querySelector('#note-body').value = note.body;
+
 }
