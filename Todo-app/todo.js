@@ -15,12 +15,12 @@ const filterTodos = {
 
 
 
-document.querySelector('.searchTodos').addEventListener('input', function (e) {
+document.querySelector('.searchTodos').addEventListener('input', (e) => {
     filterTodos.searchText = e.target.value
     renderTodos(todos, filterTodos)
 })
 
-document.querySelector('#addTodoForm').addEventListener('submit', function (e) {
+document.querySelector('#addTodoForm').addEventListener('submit',(e) => {
     e.preventDefault()
     const text = e.target.elements.addTodo.value
     const newTodo = new Todo(uuidv4(), text, false)
@@ -30,7 +30,7 @@ document.querySelector('#addTodoForm').addEventListener('submit', function (e) {
     e.target.elements.addTodo.value = ''
 })
 
-document.querySelector('#hideCompleted').addEventListener('change', function (e) {
+document.querySelector('#hideCompleted').addEventListener('change', (e) => {
     filterTodos.hideCompleted = e.target.checked
     console.log(e.target)
     renderTodos(todos, filterTodos)

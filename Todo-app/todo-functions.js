@@ -9,10 +9,8 @@ const getSavedTodos = () => {
 
 }
 
-const completeTodo = function (id, ) {
-    const todoIndex = todos.findIndex(function (todo) {
-        return todo.id === id
-    })
+const completeTodo = (id) => {
+    const todoIndex = todos.findIndex((todo) => todo.id === id)
     if (todoIndex > -1) {
         if (todos[todoIndex].completed === false) {
             todos[todoIndex].completed = true;
@@ -22,17 +20,15 @@ const completeTodo = function (id, ) {
     }
 }
 
-const removeTodo = function (id) {
-    const todoIndex = todos.findIndex(function (todo) {
-        return todo.id === id
-    })
+const removeTodo =(id) => {
+    const todoIndex = todos.findIndex((todo) => todo.id === id)
     if (todoIndex > -1) {
         todos.splice(todoIndex, 1)
     }
 }
 
 function filterSavedTodos(todos, filter) {
-    const filteredTodo = todos.filter(function (todo) {
+    const filteredTodo = todos.filter((todo) => {
         if (filter.hideCompleted === true) {
             return (todo.text.toLowerCase().includes(filter.searchText.toLowerCase()) && !todo.completed)
         } else {
@@ -55,7 +51,7 @@ function generateTodoDOM(todo) {
     const delButton = createElement('delButton')
     const completeCheckbox = createElement('completeCheckbox')
 
-    delButton.addEventListener('click', function (e) {
+    delButton.addEventListener('click', (e) => {
         removeTodo(todo.id)
         saveTodos(todos)
         renderTodos(todos, filterTodos)
@@ -110,10 +106,7 @@ function createElement(elementType) {
 function renderTodos(todos, filter) {
     const filteredTodo = filterSavedTodos(todos, filter);
 
-    const incompleteTodos = filteredTodo.filter(function (todo) {
-        
-        return !todo.completed;
-    })
+    const incompleteTodos = filteredTodo.filter((todo) => !todo.completed)
 
     document.querySelector('.todos').textContent = ''
 
