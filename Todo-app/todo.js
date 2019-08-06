@@ -1,3 +1,5 @@
+'strict mode'
+
 class Todo {
     constructor(id, text, completed) {
         this.id = id,

@@ -1,22 +1,19 @@
+'strict mode'
+
 const getSavedTodos = () => {
     const todosJSON = localStorage.getItem('todos')
 
-    if (todosJSON !== null) {
-        return JSON.parse(todosJSON)
-    } else {
-        return []
-    }
-
-}
+try {
+    return todosJSON !== null ? JSON.parse(todosJSON) : []
+} catch (error) {
+    return []
+}}
 
 const completeTodo = (id) => {
     const todoIndex = todos.findIndex((todo) => todo.id === id)
     if (todoIndex > -1) {
-        if (todos[todoIndex].completed === false) {
-            todos[todoIndex].completed = true;
-        } else {
-            todos[todoIndex].completed = false;
-        }
+
+        todos[todoIndex].completed !== true ? todos[todoIndex].completed = true : todos[todoIndex].completed = false;
     }
 }
 
@@ -29,12 +26,8 @@ const removeTodo =(id) => {
 
 function filterSavedTodos(todos, filter) {
     const filteredTodo = todos.filter((todo) => {
-        if (filter.hideCompleted === true) {
-            return (todo.text.toLowerCase().includes(filter.searchText.toLowerCase()) && !todo.completed)
-        } else {
 
-            return todo.text.toLowerCase().includes(filter.searchText.toLowerCase())
-        }
+        return filter.hideCompleted !== false ? todo.text.toLowerCase().includes(filter.searchText.toLowerCase() && !todo.completed) : todo.text.toLowerCase().includes(filter.searchText.toLowerCase())
     })
     return filteredTodo
 }
@@ -69,12 +62,7 @@ function generateTodoDOM(todo) {
 
     })
 
-
-    if (todo.text.length  > 0) {
-        todoEl.textContent = todo.text
-    } else {
-        todoEl.textContent = 'Unnamed todo'
-    }
+    todo.text.length > 0 ? todoEl.textContent = todo.text : todoEl.textContent = 'Unnamed todo'
 
     todoEl.prepend(delButton)
     todoEl.append(completeCheckbox)

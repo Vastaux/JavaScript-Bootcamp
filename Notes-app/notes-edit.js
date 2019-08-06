@@ -1,3 +1,5 @@
+'strict mode'
+
 const noteId = location.hash.substring(1);
 let notes = getSavedNotes();
 
@@ -46,3 +48,5 @@ window.addEventListener('storage', (e) => {
 })
 
 getNote(note);
+
+tr
